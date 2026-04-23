@@ -82,6 +82,9 @@ const fmtPrix = (v: any) => {
   return Number(v).toFixed(2).replace('.', ',')
 }
 
+const fmtVol = (v: number) =>
+  v > 0 ? v.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 3 }) : ''
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fmtCapital = (v: any) => {
   if (!v) return ''
@@ -220,7 +223,7 @@ function buildMonoData(opp: any, offres: any[], prixMap: Record<string, any>, se
     date_debut_fourniture:  fmtDate(dateMin),
     date_fin_fourniture:    fmtDate(dateMax),
     nb_prm:                 String(sites.length),
-    volume_contractuel_mwh: totalVol > 0 ? Math.round(totalVol).toLocaleString('fr-FR') : '',
+    volume_contractuel_mwh: fmtVol(totalVol),
     sites,
     // Alias pour le segment dans les templates monosegment
     sites_c2: segment === 'C2' ? sites : [],
@@ -265,13 +268,13 @@ function buildMultiData(opp: any, allOffresBySeg: Record<string, any[]>, allPrix
 
     // Tableau 1 stats
     c2_nb_prm:        String(segData['C2']?.sites.length || ''),
-    c2_volume_mwh:    segData['C2']?.vol ? Math.round(segData['C2'].vol).toLocaleString('fr-FR') : '',
+    c2_volume_mwh:    fmtVol(segData['C2']?.vol ?? 0),
     c4_nb_prm:        String(segData['C4']?.sites.length || ''),
-    c4_volume_mwh:    segData['C4']?.vol ? Math.round(segData['C4'].vol).toLocaleString('fr-FR') : '',
+    c4_volume_mwh:    fmtVol(segData['C4']?.vol ?? 0),
     c5_nb_prm:        String(segData['C5']?.sites.length || ''),
-    c5_volume_mwh:    segData['C5']?.vol ? Math.round(segData['C5'].vol).toLocaleString('fr-FR') : '',
+    c5_volume_mwh:    fmtVol(segData['C5']?.vol ?? 0),
     total_nb_prm:     String(totalPrm),
-    total_volume_mwh: totalVol > 0 ? Math.round(totalVol).toLocaleString('fr-FR') : '',
+    total_volume_mwh: fmtVol(totalVol),
     c2_flexibilite: '', c4_flexibilite: '', c5_flexibilite: '', total_flexibilite: '',
 
     // Prix C2
@@ -346,7 +349,18 @@ export async function generateContractFromOpportunity(opportunityId: string) {
     const opp = oppRes.records[0]
     const clientName = opp.Account?.Name || ''
 
-    // 2. Vérifier que toutes les lignes retenues sont fournisseur MINT
+    // 2. Vérifier qu'il existe au moins une ligne d'offre retenue
+    const linesCount = await conn.query(
+      `SELECT COUNT() FROM LigneOffre__c WHERE Offre__r.Opportunity__c = '${opportunityId}' AND Statut__c = 'Retenue'`
+    )
+    if (linesCount.totalSize === 0) {
+      throw new Error(
+        'Cette opportunité ne contient aucune ligne d\'offre retenue. ' +
+        'Veuillez retenir une ligne d\'offre dans Salesforce avant de générer le contrat.'
+      )
+    }
+
+    // 3. Vérifier que toutes les lignes retenues sont fournisseur MINT
     const mintCheck = await conn.query(
       `SELECT COUNT() FROM LigneOffre__c WHERE Offre__r.Opportunity__c = '${opportunityId}' AND Statut__c = 'Retenue' AND Nom_Fournisseur__c != 'MINT'`
     )
@@ -357,7 +371,7 @@ export async function generateContractFromOpportunity(opportunityId: string) {
       )
     }
 
-    // 3. Détecter les segments présents
+    // 4. Détecter les segments présents
     const foundSegs: string[] = []
     for (const seg of ['C2', 'C3', 'C4', 'C5']) {
       const r = await conn.query(
