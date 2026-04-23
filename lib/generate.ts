@@ -346,7 +346,18 @@ export async function generateContractFromOpportunity(opportunityId: string) {
     const opp = oppRes.records[0]
     const clientName = opp.Account?.Name || ''
 
-    // 2. Détecter les segments présents
+    // 2. Vérifier que toutes les lignes retenues sont fournisseur MINT
+    const mintCheck = await conn.query(
+      `SELECT COUNT() FROM LigneOffre__c WHERE Offre__r.Opportunity__c = '${opportunityId}' AND Statut__c = 'Retenue' AND Nom_Fournisseur__c != 'MINT'`
+    )
+    if (mintCheck.totalSize > 0) {
+      throw new Error(
+        'Cette opportunité contient des lignes d\'offre retenues dont le fournisseur n\'est pas MINT. ' +
+        'La génération de contrat est réservée aux offres MINT Maîtrise.'
+      )
+    }
+
+    // 3. Détecter les segments présents
     const foundSegs: string[] = []
     for (const seg of ['C2', 'C3', 'C4', 'C5']) {
       const r = await conn.query(
@@ -359,7 +370,7 @@ export async function generateContractFromOpportunity(opportunityId: string) {
     const isMulti     = foundSegs.length > 1
     const templateKey = isMulti ? 'MULTI' : foundSegs[0]
 
-    // 3. Charger offres + prix pour chaque segment
+    // 4. Charger offres + prix pour chaque segment
     const allPrixMap: Record<string, unknown> = {}
     const allOffresBySeg: Record<string, unknown[]> = {}
 
@@ -375,7 +386,7 @@ export async function generateContractFromOpportunity(opportunityId: string) {
       }
     }
 
-    // 4. Construire le payload
+    // 5. Construire le payload
     let data: Record<string, unknown>
     if (isMulti) {
       data = buildMultiData(opp, allOffresBySeg, allPrixMap)
@@ -383,7 +394,7 @@ export async function generateContractFromOpportunity(opportunityId: string) {
       data = buildMonoData(opp, allOffresBySeg[foundSegs[0]], allPrixMap, foundSegs[0])
     }
 
-    // 5. Générer le docx
+    // 6. Générer le docx
     const buffer   = generateDocx(data, templateKey)
     const slug     = clientName.toLowerCase().replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').slice(0, 40)
     const dateStr  = (data.date_debut_fourniture as string || '').replace(/\//g, '-')
