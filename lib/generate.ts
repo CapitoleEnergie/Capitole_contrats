@@ -201,7 +201,7 @@ function buildMonoData(opp: any, offres: any[], prixMap: Record<string, any>, se
   const dateMax   = dates.filter(Boolean).sort().reverse()[0]
   const totalVol  = volumes.reduce((a, b) => a + b, 0)
 
-  const firstPx   = sitesData[0]?.px || {}
+  const firstPx: Record<string, unknown> = sitesData[0]?.px || {}
   const tarifs = {
     prix_hph:    fmtPrix(firstPx.PrixHPHmarge__c),
     prix_hch:    fmtPrix(firstPx.PrixHCHmarge__c),
