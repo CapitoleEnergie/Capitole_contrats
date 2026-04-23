@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     const result = await generateContractFromOpportunity(opportunityId.trim())
 
-    return new NextResponse(result.buffer, {
+    return new NextResponse(new Uint8Array(result.buffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
