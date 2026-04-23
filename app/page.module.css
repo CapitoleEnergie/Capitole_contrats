@@ -24,13 +24,10 @@
   align-items: center;
   justify-content: space-between;
 }
-.logo {
+.logoText {
   display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.logoMark {
-  flex-shrink: 0;
+  flex-direction: column;
+  gap: 2px;
 }
 .logoName {
   font-family: var(--font-title);
@@ -112,6 +109,36 @@
   color: var(--grey-mid);
   line-height: 1.7;
   font-weight: 400;
+  margin-bottom: 16px;
+}
+.heroNotice {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+  background: #FFFBEB;
+  border: 1px solid #F5D87A;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #7A5500;
+  line-height: 1.55;
+  max-width: 480px;
+}
+.heroNotice .material-symbols-rounded {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #D4A000;
+}
+.heroNotice mark {
+  background: #FFE566;
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+.heroNotice strong {
+  font-weight: 700;
 }
 
 /* ── Card ────────────────────────────────────────────────────── */
@@ -159,6 +186,7 @@
   outline: none;
   transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
   letter-spacing: 0.3px;
+  box-sizing: border-box;
 }
 .input::placeholder { color: var(--grey-mid); font-weight: 400; }
 .input:focus {
@@ -194,6 +222,97 @@
   border-radius: 4px;
   font-size: 11px;
   font-family: 'Courier New', monospace;
+}
+
+/* ── SF Help ─────────────────────────────────────────────────── */
+.sfHelpToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--grey-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.sfHelpToggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+.sfHelpToggle .material-symbols-rounded { font-size: 16px; flex-shrink: 0; }
+
+.sfHelp {
+  background: #F8F9FF;
+  border: 1px solid #DDDFF5;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+.sfHelpText {
+  font-size: 12px;
+  color: var(--grey-mid);
+  line-height: 1.55;
+  margin: 0;
+}
+.sfHelpText code {
+  background: #ECEEFF;
+  border: 1px solid #C8CCEE;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  color: var(--primary);
+}
+
+.sfUrlBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  background: #1E1E2E;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+.sfUrlDomain {
+  color: #8899AA;
+}
+.sfUrlSep {
+  color: #6677AA;
+}
+.sfUrlId {
+  background: #FFE566;
+  color: #1A1A1A;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 1px 6px;
+  outline: 2px solid #C67FD4;
+  outline-offset: 1px;
+}
+
+.sfHelpHint {
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* ── Error ───────────────────────────────────────────────────── */
@@ -360,6 +479,121 @@
   width: 100%;
 }
 
+/* ── Historique ──────────────────────────────────────────────── */
+.historySection {
+  background: var(--white);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(35,35,35,0.04);
+}
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--grey-border);
+}
+.historyTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+}
+.historyTitle .material-symbols-rounded { font-size: 18px; color: var(--grey-mid); }
+.historyClear {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.historyClear:hover { color: #C43D00; background: #FFF4F1; }
+.historyClear .material-symbols-rounded { font-size: 16px; }
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+}
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--grey-border);
+  transition: background 0.12s;
+}
+.historyItem:last-child { border-bottom: none; }
+.historyItem:hover { background: var(--grey-bg); }
+
+.historyItemIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.historyItemInfo {
+  flex: 1;
+  min-width: 0;
+}
+.historyItemClient {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.historyItemMeta {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--grey-mid);
+  margin-top: 2px;
+}
+.historyItemMeta span::after {
+  content: '·';
+  margin-left: 8px;
+}
+.historyItemMeta span:last-child::after { content: ''; }
+
+.historyDownload {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid var(--grey-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-mid);
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 18px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.historyDownload:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
 /* ── Segments ────────────────────────────────────────────────── */
 .segments {
   display: grid;
@@ -416,4 +650,5 @@
   .segments { grid-template-columns: repeat(2, 1fr); }
   .footerInner { flex-direction: column; gap: 4px; text-align: center; }
   .headerBadge { display: none; }
+  .sfUrlBar { font-size: 10px; }
 }
