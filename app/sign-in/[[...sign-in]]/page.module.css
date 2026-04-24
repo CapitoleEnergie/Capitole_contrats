@@ -1,0 +1,149 @@
+.signInPage {
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  background: #F3F3F3;
+}
+
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 20% 50%, rgba(80,32,234,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba(229,67,220,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.signInLayout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* ── Panneau gauche ── */
+.brandPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 48px;
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+}
+
+.brandPanel::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(ellipse, rgba(80,32,234,0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.brandPanel::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(229,67,220,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.brandContent {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  color: white;
+}
+
+.brandLogo {
+  margin-bottom: 16px;
+}
+
+.brandName {
+  font-family: var(--font-title);
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.brandTagline {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 400;
+  margin-top: 2px;
+  margin-bottom: 32px;
+}
+
+.brandDivider {
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin-bottom: 32px;
+}
+
+.brandTitle {
+  font-family: var(--font-title);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.brandDesc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.brandFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.brandFeature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+}
+
+.brandFeature .material-symbols-rounded {
+  font-size: 18px;
+  background: rgba(80,32,234,0.35);
+  border-radius: 8px;
+  padding: 4px;
+  color: #9F87F4;
+}
+
+/* ── Panneau droit ── */
+.formPanel {
+  width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: white;
+  border-left: 1px solid var(--grey-border);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .brandPanel { display: none; }
+  .formPanel {
+    width: 100%;
+    border-left: none;
+  }
+}
