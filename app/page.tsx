@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { useUser, useClerk } from '@clerk/nextjs'
 import styles from './page.module.css'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
@@ -53,6 +54,8 @@ function base64ToObjectUrl(base64: string): string {
 }
 
 export default function Home() {
+  const { user } = useUser()
+  const { signOut } = useClerk()
   const [opportunityId, setOpportunityId] = useState('')
   const [status, setStatus]               = useState<Status>('idle')
   const [result, setResult]               = useState<Result | null>(null)
@@ -158,9 +161,28 @@ export default function Home() {
             <div className={styles.logoName}>Capitole Énergie</div>
             <div className={styles.logoSub}>Générateur de contrats</div>
           </div>
-          <div className={styles.headerBadge}>
-            <span className="material-symbols-rounded" style={{fontSize:14}}>bolt</span>
-            MINT Maîtrise
+          <div className={styles.headerRight}>
+            <div className={styles.headerBadge}>
+              <span className="material-symbols-rounded" style={{fontSize:14}}>bolt</span>
+              MINT Maîtrise
+            </div>
+            {user && (
+              <div className={styles.userMenu}>
+                <div className={styles.userAvatar}>
+                  {(user.firstName?.[0] ?? user.emailAddresses[0]?.emailAddress?.[0] ?? '?').toUpperCase()}
+                </div>
+                <span className={styles.userName}>
+                  {user.firstName ?? user.emailAddresses[0]?.emailAddress}
+                </span>
+                <button
+                  className={styles.signOutBtn}
+                  onClick={() => signOut({ redirectUrl: '/sign-in' })}
+                  title="Se déconnecter"
+                >
+                  <span className="material-symbols-rounded">logout</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </header>

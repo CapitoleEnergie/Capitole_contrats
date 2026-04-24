@@ -56,6 +56,59 @@
   border-radius: 20px;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.userAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.userName {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grey-mid);
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.signOutBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid var(--grey-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-mid);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.signOutBtn:hover {
+  color: #C43D00;
+  background: #FFF4F1;
+  border-color: #F3B09A;
+}
+.signOutBtn .material-symbols-rounded { font-size: 16px; }
+
 /* ── Main ────────────────────────────────────────────────────── */
 .main {
   flex: 1;
@@ -650,5 +703,6 @@
   .segments { grid-template-columns: repeat(2, 1fr); }
   .footerInner { flex-direction: column; gap: 4px; text-align: center; }
   .headerBadge { display: none; }
+  .userName { display: none; }
   .sfUrlBar { font-size: 10px; }
 }
