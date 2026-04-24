@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/localizations": "^4.5.3",
+    "@clerk/localizations": "^2.8.1",
     "@clerk/nextjs": "^5.2.4",
     "@supabase/supabase-js": "^2.43.4",
     "docxtemplater": "^3.44.0",
